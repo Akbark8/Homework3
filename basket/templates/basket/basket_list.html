@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Корзина</title>
+</head>
+<body>
+<h1>Корзина покупок</h1>
+
+{% if basket_items %}
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Покупатель</th>
+        <th>Книга</th>
+        <th>Количество</th>
+        <th>Дата добавления</th>
+    </tr>
+    {% for item in basket_items %}
+    <tr>
+        <td>{{ item.customer.name }}</td>
+        <td>{{ item.book.title }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.added_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>В корзине пока нет товаров.</p>
+{% endif %}
+
+<p><a href="{% url 'books_list' %}">← Вернуться к списку книг</a></p>
+</body>
+</html>
