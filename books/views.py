@@ -10,12 +10,6 @@ class BookDetailView(DetailView):
     context_object_name = 'book'
 
 
-class BookListView(ListView):
-    model = Book
-    template_name = 'books/book_list.html'
-    context_object_name = 'books'
-
-
 def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context['form'] = ReviewForm()
@@ -38,3 +32,9 @@ def post(self, request, *args, **kwargs):
         review.save()
         return redirect('book_detail', pk=self.object.pk)
     return self.get(request, *args, **kwargs)
+
+
+class BookListView(ListView):
+    model = Book
+    template_name = 'books/book_list.html'
+    context_object_name = 'books'
