@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'books',
     'basket',
+    'accounts',
+    'captcha',
 ]
 
 MIDDLEWARE = [
