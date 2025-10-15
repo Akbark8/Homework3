@@ -1,10 +1,29 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import BasketItem, Customer
 from books.models import Book
+
 
 def basket_list(request):
     items = BasketItem.objects.all()
     return render(request, 'basket/basket_list.html', {'basket_items': items})
+
+
+def update_basket_item(request, item_id):
+    item = get_object_or_404(BasketItem, id=item_id)
+    if request.method == 'POST':
+        item.quantity = int(request.POST.get('quantity', item.quantity))
+        item.save()
+        return redirect('basket_list')
+    return render(request, 'basket/update_basket_item.html', {'item': item})
+
+
+def delete_basket_item(request, item_id):
+    item = get_object_or_404(BasketItem, id=item_id)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('basket_list')
+    return render(request, 'basket/delete_basket_item.html', {'item': item})
+
 
 def add_to_basket(request):
     if request.method == 'POST':

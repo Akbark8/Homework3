@@ -10,6 +10,7 @@ urlpatterns = [
     path('basket/', include('basket.urls')),
     path('accounts/', include('accounts.urls')),
     path('captcha/', include('captcha.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

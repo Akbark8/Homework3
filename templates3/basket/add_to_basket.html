@@ -35,5 +35,24 @@
 </form>
 
 <p><a href="{% url 'basket_list' %}">← Вернуться в корзину</a></p>
+
+<h1>Изменить количество</h1>
+<form method="post">
+    {% csrf_token %}
+    <label>Количество:</label>
+    <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+    <button type="submit">Сохранить</button>
+</form>
+<a href="{% url 'basket_list' %}">Назад</a>
+
+<h1>Удалить товар из корзины</h1>
+<p>Вы уверены, что хотите удалить "{{ item.book.title }}" у "{{ item.customer.name }}"?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, удалить</button>
+    <a href="{% url 'basket_list' %}">Отмена</a>
+</form>
+
 </body>
 </html>
