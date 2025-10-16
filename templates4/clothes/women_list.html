@@ -1,0 +1,13 @@
+<h1>👗 Женская одежда</h1>
+<form method="get" action="{% url 'search_clothes' %}">
+    <input type="text" name="q" placeholder="Поиск одежды...">
+    <button type="submit">Найти</button>
+</form>
+
+<ul>
+    {% for item in items %}
+        <li>{{ item.name }} — {{ item.price }} сом</li>
+    {% empty %}
+        <li>Нет товаров</li>
+    {% endfor %}
+</ul>

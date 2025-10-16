@@ -1,0 +1,14 @@
+<h1>🔎 Результаты поиска</h1>
+
+<form method="get">
+    <input type="text" name="q" value="{{ query }}" placeholder="Введите название">
+    <button type="submit">Поиск</button>
+</form>
+
+<ul>
+    {% for item in items %}
+        <li>{{ item.name }} — {{ item.price }} сом</li>
+    {% empty %}
+        <li>Ничего не найдено</li>
+    {% endfor %}
+</ul>
