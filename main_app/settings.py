@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'basket',
     'accounts',
     'captcha',
+    'clothes',
 ]
 
 MIDDLEWARE = [
@@ -45,7 +46,7 @@ ROOT_URLCONF = 'main_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'templates','templates2','templates3','templates4'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

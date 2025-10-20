@@ -1,19 +1,43 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 from .models import ClothingItem
 
-def men_clothes(request):
-    items = ClothingItem.objects.filter(category='men')
-    return render(request, 'clothes/men_list.html', {'items': items})
+class MenClothesListView(ListView):
+    model = ClothingItem
+    template_name = 'clothes/men_list.html'
+    context_object_name = 'items'
 
-def women_clothes(request):
-    items = ClothingItem.objects.filter(category='women')
-    return render(request, 'clothes/women_list.html', {'items': items})
+    def get_queryset(self):
+        return ClothingItem.objects.filter(category='men')
 
-def kids_clothes(request):
-    items = ClothingItem.objects.filter(category='kids')
-    return render(request, 'clothes/kids_list.html', {'items': items})
 
-def search_clothes(request):
-    query = request.GET.get('q', '')
-    items = ClothingItem.objects.filter(name__icontains=query)
-    return render(request, 'clothes/search.html', {'items': items, 'query': query})
+class WomenClothesListView(ListView):
+    model = ClothingItem
+    template_name = 'clothes/women_list.html'
+    context_object_name = 'items'
+
+    def get_queryset(self):
+        return ClothingItem.objects.filter(category='women')
+
+
+class KidsClothesListView(ListView):
+    model = ClothingItem
+    template_name = 'clothes/kids_list.html'
+    context_object_name = 'items'
+
+    def get_queryset(self):
+        return ClothingItem.objects.filter(category='kids')
+
+
+class SearchClothesListView(ListView):
+    model = ClothingItem
+    template_name = 'clothes/search.html'
+    context_object_name = 'items'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', '')
+        return ClothingItem.objects.filter(name__icontains=query)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')
+        return context

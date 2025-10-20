@@ -1,42 +1,41 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, render
+from django.views import View
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import BasketItem, Customer
 from books.models import Book
 
 
-def basket_list(request):
-    items = BasketItem.objects.all()
-    return render(request, 'basket/basket_list.html', {'basket_items': items})
+class BasketListView(ListView):
+    model = BasketItem
+    template_name = 'basket/basket_list.html'
+    context_object_name = 'basket_items'
 
 
-def update_basket_item(request, item_id):
-    item = get_object_or_404(BasketItem, id=item_id)
-    if request.method == 'POST':
-        item.quantity = int(request.POST.get('quantity', item.quantity))
-        item.save()
-        return redirect('basket_list')
-    return render(request, 'basket/update_basket_item.html', {'item': item})
+class BasketItemUpdateView(UpdateView):
+    model = BasketItem
+    fields = ['quantity']
+    template_name = 'basket/update_basket_item.html'
+    success_url = reverse_lazy('basket_list')
 
 
-def delete_basket_item(request, item_id):
-    item = get_object_or_404(BasketItem, id=item_id)
-    if request.method == 'POST':
-        item.delete()
-        return redirect('basket_list')
-    return render(request, 'basket/delete_basket_item.html', {'item': item})
+class BasketItemDeleteView(DeleteView):
+    model = BasketItem
+    template_name = 'basket/delete_basket_item.html'
+    success_url = reverse_lazy('basket_list')
 
 
-def add_to_basket(request):
-    if request.method == 'POST':
+class BasketItemCreateView(View):
+    def get(self, request):
+        customers = Customer.objects.all()
+        books = Book.objects.all()
+        return render(request, 'basket/add_to_basket.html', {'customers': customers, 'books': books})
+
+    def post(self, request):
         customer_id = request.POST.get('customer')
         book_id = request.POST.get('book')
         quantity = int(request.POST.get('quantity', 1))
-
         customer = Customer.objects.get(id=customer_id)
         book = Book.objects.get(id=book_id)
-
         BasketItem.objects.create(customer=customer, book=book, quantity=quantity)
         return redirect('basket_list')
-
-    customers = Customer.objects.all()
-    books = Book.objects.all()
-    return render(request, 'basket/add_to_basket.html', {'customers': customers, 'books': books})

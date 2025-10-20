@@ -10,6 +10,7 @@ urlpatterns = [
     path('basket/', include('basket.urls')),
     path('accounts/', include('accounts.urls')),
     path('captcha/', include('captcha.urls')),
+    path('clothes/', include('clothes.urls')),
 
 ]
 
